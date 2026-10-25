@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "auramateclient",
+  "version": "${version}",
+  "name": "AuraMateClient",
+  "description": "Compact task-manager style panel with on/off toggles: Lunge Swap, Fast Shield, See Hearts, Effect Timer, Armor HUD.",
+  "authors": ["You"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["dev.auramate.client.AuraMate"],
+    "client": ["dev.auramate.client.AuraMateClient"]
+  },
+  "mixins": ["auramateclient.mixins.json"],
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
