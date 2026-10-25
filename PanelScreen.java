@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.Text;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class PanelScreen extends Screen {
 
 	@Override
 	protected void init() {
-		wasDown = MinecraftClient.getInstance().mouse.wasLeftButtonClicked();
+		wasDown = leftDown();
 		if (px < 0 || py < 0) {
 			px = (width - W) / 2;
 			py = height / 4;
@@ -57,6 +58,12 @@ public class PanelScreen extends Screen {
 		// No blur / dim: keep it a small floating window over the game.
 	}
 
+	/** Reads the left mouse button straight from GLFW so it works while a screen is open. */
+	private static boolean leftDown() {
+		long handle = MinecraftClient.getInstance().getWindow().getHandle();
+		return GLFW.glfwGetMouseButton(handle, GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS;
+	}
+
 	private int panelHeight() {
 		return HEADER + Features.all().size() * ROW + FOOTER;
 	}
@@ -68,7 +75,7 @@ public class PanelScreen extends Screen {
 
 	@Override
 	public void render(DrawContext ctx, int mx, int my, float delta) {
-		boolean down = MinecraftClient.getInstance().mouse.wasLeftButtonClicked();
+		boolean down = leftDown();
 		List<Feature> feats = Features.all();
 
 		// ---- input (edge-detected polling) ----
